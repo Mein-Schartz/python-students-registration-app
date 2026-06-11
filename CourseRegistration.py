@@ -54,7 +54,7 @@ class Student:
 
         return total
 
-    def display_student_details(self):
+    de display_student_details(self):
         print("\nStudent Details")
         print("-" * 30)
         print(f"Student ID: {self.student_id}")
@@ -124,7 +124,7 @@ def fetch_courses():
                     course_code = row[0]
                     course_name = row[1]
                     course_fee = int(row[2])
-                    course_duration = row[3]
+                    course_duration = row[3
 
                     courses[course_code] = Course(course_code, course_name, course_fee, course_duration)
 
@@ -212,7 +212,7 @@ def get_required_input(message):
         print(Fore.RED + "This field is required." + Style.RESET_ALL)
         value = input(message).strip()
 
-    return value
+    return valu
 
 
 def get_positive_age():
