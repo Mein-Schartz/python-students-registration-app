@@ -37,7 +37,7 @@ class Student:
         else:
             self.registered_courses = registered_courses
 
-    def add_course(self, course_code):
+    def add_student_registered_course(self, course_code):
         if course_code in self.registered_courses:
             print(Fore.YELLOW + "Student has already registered for this course." + Style.RESET_ALL)
             return False
@@ -54,7 +54,7 @@ class Student:
 
         return total
 
-    de display_student_details(self):
+    def display_student_details(self):
         print("\nStudent Details")
         print("-" * 30)
         print(f"Student ID: {self.student_id}")
@@ -124,7 +124,7 @@ def fetch_courses():
                     course_code = row[0]
                     course_name = row[1]
                     course_fee = int(row[2])
-                    course_duration = row[3
+                    course_duration = row[3]
 
                     courses[course_code] = Course(course_code, course_name, course_fee, course_duration)
 
@@ -212,7 +212,7 @@ def get_required_input(message):
         print(Fore.RED + "This field is required." + Style.RESET_ALL)
         value = input(message).strip()
 
-    return valu
+    return value
 
 
 def get_positive_age():
@@ -269,7 +269,7 @@ def register_student_for_course():
         print(Fore.RED + "Course not found." + Style.RESET_ALL)
         return
 
-    course_added = students[student_id].add_course(course_code)
+    course_added = students[student_id].add_student_registered_course(course_code)
 
     if course_added:
         # Save immediately so the course registration is not lost.
@@ -316,7 +316,6 @@ def show_menu():
     print("4. View Student Details")
     print("5. View All Students")
     print("6. Exit")
-
 
 def main():
     init(autoreset=True)
