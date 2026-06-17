@@ -1,2 +1,7 @@
+<<<<<<< Updated upstream
 student_id,name,age,phone,date_registered,registered_courses
 STU001,ELijah Buckley,20,09575747445,2026-06-11 21:26:22,
+=======
+student_id,name,age,phone,Programme,date_registered,registered_courses
+STU001,ELijah Buckley,20,09575747445,Msc,2026-06-11 21:26:22,PY101|DB305
+>>>>>>> Stashed changes

@@ -1,14 +1,11 @@
 from datetime import datetime
 import csv
 import os
-
 from colorama import Fore, Style, init
 from tabulate import tabulate
 
-
 COURSES_FILE = "courses.csv"
 STUDENTS_FILE = "students.csv"
-
 
 class Course:
     def __init__(self, code, name, fee, duration):
@@ -17,13 +14,14 @@ class Course:
         self.fee = fee
         self.duration = duration
 
-
 class Student:
-    def __init__(self, student_id, name, age, phone, date_registered="", registered_courses=None):
+    def __init__(self, student_id, name, age, phone,
+                 programme, date_registered="", registered_courses=None):
         self.student_id = student_id
         self.name = name
         self.age = age
         self.phone = phone
+        self.programme = programme
 
         # Store the date as simple text so it is easy to save in a CSV file.
         if date_registered == "":
@@ -61,6 +59,7 @@ class Student:
         print(f"Name: {self.name}")
         print(f"Age: {self.age}")
         print(f"Phone: {self.phone}")
+        print(f"Programme: {self.programme}")
         print(f"Registered On: {self.date_registered}")
 
         print("\nRegistered Courses:")
@@ -168,23 +167,25 @@ def fetch_students():
 
             # Convert each CSV row back into a Student object.
             for row in reader:
-                if len(row) == 6:
+                if len(row) == 7:
                     student_id = row[0]
                     name = row[1]
                     age = int(row[2])
                     phone = row[3]
-                    date_registered = row[4]
+                    programme = row[4]
+                    date_registered = row[5]
 
-                    if row[5] == "":
+                    if row[6] == "":
                         registered_courses = []
                     else:
-                        registered_courses = row[5].split("|")
+                        registered_courses = row[6].split("|")
 
                     students[student_id] = Student(
                         student_id,
                         name,
                         age,
                         phone,
+                        programme,
                         date_registered,
                         registered_courses
                     )
@@ -220,7 +221,7 @@ def get_positive_age():
         try:
             age = int(input("Enter age: "))
 
-            if age > 0:
+            if 0 < age < 80:
                 return age
 
             print(Fore.RED + "Age must be greater than zero." + Style.RESET_ALL)
@@ -243,10 +244,11 @@ def add_student():
 
     name = get_required_input("Enter student name: ")
     phone = get_required_input("Enter phone number: ")
+    programme = get_required_input("Enter programme: ")
     age = get_positive_age()
 
     student_id = generate_student_id()
-    new_student = Student(student_id, name, age, phone)
+    new_student = Student(student_id, name, age, phone, programme)
     students[student_id] = new_student
 
     # Save immediately so the student is still available after the program closes.
