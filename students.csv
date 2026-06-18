@@ -1,2 +1,4 @@
-student_id,name,age,phone,date_registered,registered_courses
-STU001,ELijah Buckley,20,09575747445,2026-06-11 21:26:22,
+student_id,name,age,phone,email,date_registered,registered_courses
+STU001,bg,5,g,g,2026-06-18 17:10:38,2026-06-18 17:10:38
+STU002,bfg,43,43,er,2026-06-18 17:15:17,2026-06-18 17:15:17
+STU003,br,34,45,f,2026-06-18 17:19:40,

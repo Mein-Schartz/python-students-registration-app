@@ -1,3 +1,4 @@
+#import email
 from datetime import datetime
 import csv
 import os
@@ -18,12 +19,14 @@ class Course:
         self.duration = duration
 
 
+
 class Student:
-    def __init__(self, student_id, name, age, phone, date_registered="", registered_courses=None):
+    def __init__(self, student_id, name, age, phone, email, date_registered="", registered_courses=None):
         self.student_id = student_id
         self.name = name
         self.age = age
         self.phone = phone
+        self.email = email
 
         # Store the date as simple text so it is easy to save in a CSV file.
         if date_registered == "":
@@ -61,6 +64,7 @@ class Student:
         print(f"Name: {self.name}")
         print(f"Age: {self.age}")
         print(f"Phone: {self.phone}")
+        print(f"Email: {self.email}")
         print(f"Registered On: {self.date_registered}")
 
         print("\nRegistered Courses:")
@@ -141,7 +145,7 @@ def save_students():
     # A student can have many courses, so we join the course codes with | before saving.
     with open(STUDENTS_FILE, "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["student_id", "name", "age", "phone", "date_registered", "registered_courses"])
+        writer.writerow(["student_id", "name", "age", "phone","email", "date_registered", "registered_courses"])
 
         for student_id in students:
             student = students[student_id]
@@ -152,6 +156,7 @@ def save_students():
                 student.name,
                 student.age,
                 student.phone,
+                student.email,
                 student.date_registered,
                 course_codes
             ])
@@ -168,12 +173,13 @@ def fetch_students():
 
             # Convert each CSV row back into a Student object.
             for row in reader:
-                if len(row) == 6:
+                if len(row) == 7:
                     student_id = row[0]
                     name = row[1]
                     age = int(row[2])
                     phone = row[3]
-                    date_registered = row[4]
+                    email = row[4]
+                    date_registered = row[5]
 
                     if row[5] == "":
                         registered_courses = []
@@ -185,6 +191,7 @@ def fetch_students():
                         name,
                         age,
                         phone,
+                        email,
                         date_registered,
                         registered_courses
                     )
@@ -243,10 +250,11 @@ def add_student():
 
     name = get_required_input("Enter student name: ")
     phone = get_required_input("Enter phone number: ")
+    email = get_required_input("Enter your email: ")
     age = get_positive_age()
 
     student_id = generate_student_id()
-    new_student = Student(student_id, name, age, phone)
+    new_student = Student(student_id, name, age, phone, email)
     students[student_id] = new_student
 
     # Save immediately so the student is still available after the program closes.
@@ -302,6 +310,7 @@ def view_all_students():
                 student.name,
                 student.age,
                 student.phone,
+                student.email,
                 len(student.registered_courses)
             ])
 
