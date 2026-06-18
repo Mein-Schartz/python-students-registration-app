@@ -181,10 +181,10 @@ def fetch_students():
                     email = row[4]
                     date_registered = row[5]
 
-                    if row[5] == "":
+                    if row[6] == "":
                         registered_courses = []
                     else:
-                        registered_courses = row[5].split("|")
+                        registered_courses = row[6].split("|")
 
                     students[student_id] = Student(
                         student_id,
@@ -221,6 +221,30 @@ def get_required_input(message):
 
     return value
 
+def get_valid_email():
+    while True:
+        email = input("Enter your email: ").strip()
+
+        if email.count("@") != 1:
+            print("Invalid email. Email must contain exactly one '@'.")
+            continue
+
+        username, domain = email.split("@")
+
+        if not username:
+            print("Invalid email. Username cannot be empty.")
+            continue
+
+        if "." not in domain:
+            print("Invalid email. Domain must contain a '.'.")
+            continue
+
+        if domain.startswith(".") or domain.endswith("."):
+            print("Invalid email. '.' cannot be at the beginning or end of the domain.")
+            continue
+
+        return email
+
 
 def get_positive_age():
     while True:
@@ -250,7 +274,7 @@ def add_student():
 
     name = get_required_input("Enter student name: ")
     phone = get_required_input("Enter phone number: ")
-    email = get_required_input("Enter your email: ")
+    email = get_valid_email()
     age = get_positive_age()
 
     student_id = generate_student_id()
