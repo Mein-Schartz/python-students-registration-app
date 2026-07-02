@@ -9,6 +9,14 @@ from tabulate import tabulate
 
 COURSES_FILE = "courses.csv"
 STUDENTS_FILE = "students.csv"
+LECTURERS_FILE = "lecturers.csv"
+
+class Lecturer:
+    def __init__(self, lecturer_id, lecturer_name, email):
+        self.lecturer_id = lecturer_id
+        self.lecturer_name = lecturer_name
+        self.email = email
+
 
 
 class Course:
@@ -91,6 +99,8 @@ courses = {}
 # Key = student ID, Value = Student object
 students = {}
 
+lecturers = {}
+
 
 def create_default_courses():
     courses["PY101"] = Course("PY101", "Python Basics", 300, "4 weeks")
@@ -165,7 +175,6 @@ def save_students():
 def fetch_students():
     global students
     students = {}
-
     if os.path.exists(STUDENTS_FILE):
         with open(STUDENTS_FILE, "r", newline="") as file:
             reader = csv.reader(file)
@@ -198,6 +207,37 @@ def fetch_students():
     else:
         # Create an empty file the first time the app runs.
         save_students()
+
+def fetch_lecturers():
+    global lecturers
+    lecturers = {}
+    if os.path.exists(LECTURERS_FILE):
+        with open(LECTURERS_FILE, "r", newline="") as file:
+            reader = csv.reader(file)
+            next(reader, None)
+
+            for row in reader:
+                if len(row) == 3:
+                    lecturer_id = row[0]
+                    lecturer_name = row[1]
+                    lecturer_email = row[2]
+                    lecturers[lecturer_id] = Lecturer(
+                        lecturer_id,
+                        lecturer_name,
+                        lecturer_email
+                    )
+                else:
+                    save_lecturers()
+
+
+def save_lecturers():
+    with open(LECTURERS_FILE, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Lecturer_id", "Lecturer_name", "Email"])
+        for lecturer_id in lecturers:
+            lecturer = lecturers[lecturer_id]
+            writer.writerow([lecturer_id, lecturer.name, lecturer.email])
+
 
 
 def generate_student_id():
@@ -357,6 +397,7 @@ def main():
     # Fetch saved data before showing the menu.
     fetch_courses()
     fetch_students()
+    fetch_lecturers()
 
     while True:
         show_menu()
