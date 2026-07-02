@@ -236,7 +236,7 @@ def save_lecturers():
         writer.writerow(["Lecturer_id", "Lecturer_name", "Email"])
         for lecturer_id in lecturers:
             lecturer = lecturers[lecturer_id]
-            writer.writerow([lecturer_id, lecturer.name, lecturer.email])
+            writer.writerow([lecturer_id, lecturer.lecturer_name, lecturer.email])
 
 
 
@@ -307,6 +307,19 @@ def view_courses():
         table.append([course.code, course.name, "GHS " + str(course.fee), course.duration])
 
     print(tabulate(table, headers=["Course Code", "Course", "Fee", "Duration"], tablefmt="grid"))
+
+def add_lecturer():
+    print("\nAdd lecturer")
+    name = get_required_input("Enter name: ")
+    email = get_required_input("Enter email: ")
+    lecturer_id = get_required_input("Enter lecturer ID: ")
+
+    new_lecturer = Lecturer(lecturer_id,name, email)
+
+    lecturers[lecturer_id] = new_lecturer
+
+    save_lecturers()
+    print(Fore.GREEN + f"Lecturer added successfully. Lecturer ID: {lecturer_id}" + Style.RESET_ALL)
 
 
 def add_student():
@@ -388,7 +401,8 @@ def show_menu():
     print("3. Register Student for Course")
     print("4. View Student Details")
     print("5. View All Students")
-    print("6. Exit")
+    print("6. Add New Lecturer")
+    print("0. Exit")
 
 
 def main():
@@ -417,6 +431,9 @@ def main():
             elif choice == 5:
                 view_all_students()
             elif choice == 6:
+                add_lecturer()
+
+            elif choice == 0:
                 print("Thank you for using the app. Goodbye!")
                 break
             else:
