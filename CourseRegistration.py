@@ -238,6 +238,15 @@ def save_lecturers():
             lecturer = lecturers[lecturer_id]
             writer.writerow([lecturer_id, lecturer.lecturer_name, lecturer.email])
 
+def generate_lecturer_id():
+    number_lec = 1
+
+    while True:
+        lecturer_id = "LEC" + str(number_lec).zfill(4)
+        if lecturer_id not in lecturers:
+            return lecturer_id
+
+        number_lec = number_lec + 1
 
 
 def generate_student_id():
@@ -395,7 +404,7 @@ def view_all_students():
 
 
 def show_menu():
-    print("\nWelcome to Python Training Center")
+    print("\nWelcome to Python Training Center.")
     print("1. View Available Courses")
     print("2. Add Student")
     print("3. Register Student for Course")
