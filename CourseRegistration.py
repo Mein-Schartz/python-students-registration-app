@@ -2,7 +2,6 @@
 from datetime import datetime
 import csv
 import os
-
 from colorama import Fore, Style, init
 from tabulate import tabulate
 
@@ -238,11 +237,12 @@ def save_lecturers():
             lecturer = lecturers[lecturer_id]
             writer.writerow([lecturer_id, lecturer.lecturer_name, lecturer.email])
 
-def generate_lecturer_id():
+def generate_lecturer_id(username):
     number_lec = 1
 
     while True:
-        lecturer_id = "LEC" + str(number_lec).zfill(4)
+        lecturer_id = username[:2].upper() + str(number_lec).zfill(4)
+
         if lecturer_id not in lecturers:
             return lecturer_id
 
@@ -319,11 +319,11 @@ def view_courses():
 
 def add_lecturer():
     print("\nAdd lecturer")
-    name = get_required_input("Enter name: ")
-    email = get_required_input("Enter email: ")
-    lecturer_id = get_required_input("Enter lecturer ID: ")
+    username = get_required_input("Enter name: ")
+    email = get_valid_email()
+    lecturer_id = generate_lecturer_id(username)
 
-    new_lecturer = Lecturer(lecturer_id,name, email)
+    new_lecturer = Lecturer(lecturer_id,username, email)
 
     lecturers[lecturer_id] = new_lecturer
 
@@ -369,6 +369,7 @@ def register_student_for_course():
         # Save immediately so the course registration is not lost.
         save_students()
         print(Fore.GREEN + "Course registered successfully." + Style.RESET_ALL)
+
 
 
 def view_student_details():
@@ -425,10 +426,8 @@ def main():
     while True:
         show_menu()
         print("-" * 30)
-
         try:
             choice = int(input("Choose an option: "))
-
             if choice == 1:
                 view_courses()
             elif choice == 2:
