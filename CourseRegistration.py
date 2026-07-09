@@ -1,4 +1,5 @@
 #import email
+from dataclasses import dataclass
 from datetime import datetime
 import csv
 import os
@@ -10,11 +11,13 @@ COURSES_FILE = "courses.csv"
 STUDENTS_FILE = "students.csv"
 LECTURERS_FILE = "lecturers.csv"
 
+@dataclass
 class Lecturer:
-    def __init__(self, lecturer_id, lecturer_name, email):
+    def __init__(self, lecturer_id, lecturer_name, email, phone):
         self.lecturer_id = lecturer_id
         self.lecturer_name = lecturer_name
-        self.email = email
+        self.email = email,
+        self.phone = phone
 
 
 
@@ -25,7 +28,6 @@ class Course:
         self.fee = fee
         self.duration = duration
         self.lecturer_id = lecturer_id
-
 
 
 class Student:
@@ -105,11 +107,11 @@ lecturers = {}
 def create_default_courses():
     courses["PY101"] = Course("PY101", "Python Basics", 300, "4 weeks",  "FR0001")
     courses["WD201"] = Course("WD201", "Web Development", 500, "6 weeks", "KE0002")
-    courses["DB301"] = Course("DB301", "Database Fundamentals", 400, "5 weeks")
-    courses["JS401"] = Course("JS401", "JavaScript Basics", 350, "4 weeks")
-    courses["DB305"] = Course("DB305", "Data Structure Fundamentals", 400, "5 weeks")
-    courses["JS406"] = Course("JS406", "Java Basics", 350, "4 weeks")
-    courses["REM509"] = Course("REM509", "Research Methods", 200, "1 year")
+    courses["DB301"] = Course("DB301", "Database Fundamentals", 400, "5 weeks", "")
+    courses["JS401"] = Course("JS401", "JavaScript Basics", 350, "4 weeks", "")
+    courses["DB305"] = Course("DB305", "Data Structure Fundamentals", 400, "5 weeks", "")
+    courses["JS406"] = Course("JS406", "Java Basics", 350, "4 weeks","")
+    courses["REM509"] = Course("REM509", "Research Methods", 200, "1 year","")
 
 
 def save_courses():
@@ -120,7 +122,11 @@ def save_courses():
 
         for course_code in courses:
             course = courses[course_code]
-            writer.writerow([course.code, course.name, course.fee, course.duration, course.lecturer_id])
+            writer.writerow([course.code,
+                             course.name,
+                             course.fee,
+                             course.duration,
+                             course.lecturer_id])
 
 
 def fetch_courses():
@@ -142,7 +148,11 @@ def fetch_courses():
                     course_lecturer_id = row[4]
 
 
-                    courses[course_code] = Course(course_code, course_name, course_fee, course_duration, course_lecturer_id)
+                    courses[course_code] = Course(course_code,
+                                                  course_name,
+                                                  course_fee,
+                                                  course_duration,
+                                                  course_lecturer_id)
 
         if len(courses) == 0:
             create_default_courses()
@@ -219,14 +229,16 @@ def fetch_lecturers():
             next(reader, None)
 
             for row in reader:
-                if len(row) == 3:
+                if len(row) == 4:
                     lecturer_id = row[0]
                     lecturer_name = row[1]
                     lecturer_email = row[2]
+                    lecture_phone = row[3]
                     lecturers[lecturer_id] = Lecturer(
                         lecturer_id,
                         lecturer_name,
-                        lecturer_email
+                        lecturer_email,
+                        lecture_phone
                     )
                 else:
                     save_lecturers()
@@ -313,12 +325,26 @@ def get_positive_age():
 
 def view_courses():
     table = []
-
+    lecturer_info = ''
     for course_code in courses:
         course = courses[course_code]
-        table.append([course.code, course.name, "GHS " + str(course.fee), course.duration])
+        if course.lecturer_id in lecturers:
+            lecturer = lecturers[course.lecturer_id]
+            lecturer_info = f'name: {lecturer.lecturer_name}\nemail: {lecturer.email}\n Phone: {lecturer.phone}'
+        else:
+            lecturer_info = "No Assigned lecturer"
+        table.append([course.code,
+                      course.name,
+                      "GHS " + str(course.fee),
+                      course.duration,
+                      lecturer_info])
 
-    print(tabulate(table, headers=["Course Code", "Course", "Fee", "Duration"], tablefmt="grid"))
+    print(tabulate(table, headers=["Course Code",
+                                   "Course Name",
+                                   "Fee",
+                                   "Duration",
+                                   "Lecturer Info"],
+                   tablefmt="grid"))
 
 def add_lecturer():
     print("\nAdd lecturer")

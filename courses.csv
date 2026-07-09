@@ -1,8 +1,8 @@
 code,name,fee,duration,lecturer_id
-PY101,Python Basics,300,4 weeks,
-WD201,Web Development,500,6 weeks,
+PY101,Python Basics,300,4 weeks,FR0001
+WD201,Web Development,500,6 weeks,LEC0001
 DB301,Database Fundamentals,400,5 weeks,
 JS401,JavaScript Basics,350,4 weeks,
-DB305,Data Structure Fundamentals,400,5 weeks,
+DB305,Data Structure Fundamentals,400,5 weeks,BBOO1
 JS406,Java Basics,350,4 weeks,
-REM509,Research Methods,200,1 year,
+REM509,Research Methods,200,1 year,UM0001

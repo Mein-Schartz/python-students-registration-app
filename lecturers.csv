@@ -1,5 +1,5 @@
-Lecturer_id,Lecturer_name,Email
-BBOO1,Dr Brown,brown@gctu.com
-kd,Ben,brnf
-LEC0001,Kester Dean,kester@gctu.com
-FR0001,Freeman,freeman@gctu.com
+Lecturer_id,Lecturer_name,Email,Phone
+BBOO1,Dr Brown,brown@gctu.com,098765456
+UM0001,Dr. Ujapka,ujakpa@gmail.com,87654654
+LEC0001,Kester Dean,kester@gctu.com,87654765
+FR0001,Freeman,freeman@gctu.com,7654654
