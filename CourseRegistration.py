@@ -19,11 +19,12 @@ class Lecturer:
 
 
 class Course:
-    def __init__(self, code, name, fee, duration):
+    def __init__(self, code, name, fee, duration, lecturer_id = None):
         self.code = code
         self.name = name
         self.fee = fee
         self.duration = duration
+        self.lecturer_id = lecturer_id
 
 
 
@@ -102,8 +103,8 @@ lecturers = {}
 
 
 def create_default_courses():
-    courses["PY101"] = Course("PY101", "Python Basics", 300, "4 weeks")
-    courses["WD201"] = Course("WD201", "Web Development", 500, "6 weeks")
+    courses["PY101"] = Course("PY101", "Python Basics", 300, "4 weeks",  "FR0001")
+    courses["WD201"] = Course("WD201", "Web Development", 500, "6 weeks", "KE0002")
     courses["DB301"] = Course("DB301", "Database Fundamentals", 400, "5 weeks")
     courses["JS401"] = Course("JS401", "JavaScript Basics", 350, "4 weeks")
     courses["DB305"] = Course("DB305", "Data Structure Fundamentals", 400, "5 weeks")
@@ -115,11 +116,11 @@ def save_courses():
     # A CSV file stores rows, so each course becomes one row in the file.
     with open(COURSES_FILE, "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["code", "name", "fee", "duration"])
+        writer.writerow(["code", "name", "fee", "duration", "lecturer_id"])
 
         for course_code in courses:
             course = courses[course_code]
-            writer.writerow([course.code, course.name, course.fee, course.duration])
+            writer.writerow([course.code, course.name, course.fee, course.duration, course.lecturer_id])
 
 
 def fetch_courses():
@@ -133,13 +134,15 @@ def fetch_courses():
 
             # Convert each CSV row back into a Course object.
             for row in reader:
-                if len(row) == 4:
+                if len(row) == 5:
                     course_code = row[0]
                     course_name = row[1]
                     course_fee = int(row[2])
                     course_duration = row[3]
+                    course_lecturer_id = row[4]
 
-                    courses[course_code] = Course(course_code, course_name, course_fee, course_duration)
+
+                    courses[course_code] = Course(course_code, course_name, course_fee, course_duration, course_lecturer_id)
 
         if len(courses) == 0:
             create_default_courses()
