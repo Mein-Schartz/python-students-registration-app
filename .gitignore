@@ -19,6 +19,7 @@ env/
 # Local configuration
 .env
 .env.*
+db.sqlite3
 
 # OS files
 .DS_Store

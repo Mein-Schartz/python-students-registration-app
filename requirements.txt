@@ -1,2 +1,6 @@
+asgiref==3.11.1
 colorama==0.4.6
+Django==6.0.7
+sqlparse==0.5.5
 tabulate==0.10.0
+tzdata==2026.3
