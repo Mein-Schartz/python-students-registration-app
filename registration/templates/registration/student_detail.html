@@ -1,0 +1,42 @@
+ {% extends "registration/base.html" %}
+
+{% block title %}{{ student.name }} | Student Registration{% endblock %}
+{% block page_heading %}Student Profile{% endblock %}
+
+{% block header_actions %}
+    <a class="btn" href="{% url 'registration:student_list' %}">Back to List</a>
+    <a class="btn primary" href="{% url 'registration:student_update' student.student_id %}">Edit Student</a>
+{% endblock %}
+
+{% block content %}
+    <section class="detail-layout">
+        <div class="profile-panel">
+            <div class="avatar">{{ student.name|first|upper }}</div>
+            <div>
+                <h2>{{ student.name }}</h2>
+                <p>{{ student.student_id }}</p>
+            </div>
+        </div>
+
+        <div class="details-panel">
+            <dl class="details-list">
+                <div>
+                    <dt>Age</dt>
+                    <dd>{{ student.age }}</dd>
+                </div>
+                <div>
+                    <dt>Phone</dt>
+                    <dd>{{ student.phone }}</dd>
+                </div>
+                <div>
+                    <dt>Email</dt>
+                    <dd>{{ student.email }}</dd>
+                </div>
+                <div>
+                    <dt>Date Registered</dt>
+                    <dd>{{ student.date_registered|date:"M d, Y g:i A" }}</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Students | Student Registration{% endblock %}
+{% block page_heading %}Students{% endblock %}
+
+{% block header_actions %}
+    <a class="btn primary" href="{% url 'registration:student_create' %}">Add Student</a>
+{% endblock %}
+
+{% block content %}
+    <section class="summary-row" aria-label="Student summary">
+        <div class="metric">
+            <span class="metric-label">Total Students</span>
+            <strong>{{ total_students }}</strong>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Current View</span>
+            <strong>{{ students|length }}</strong>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-header">
+            <div>
+                <h2>Student List</h2>
+                <p>Manage student records and contact details.</p>
+            </div>
+            <form class="search-form" method="get">
+                <label class="sr-only" for="student-search">Search students</label>
+                <input id="student-search" name="q" type="search" value="{{ query }}" placeholder="Search students">
+                <button class="btn" type="submit">Search</button>
+            </form>
+        </div>
+
+        {% if students %}
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Registered</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td><strong>{{ student.student_id }}</strong></td>
+                                <td>{{ student.name }}</td>
+                                <td>{{ student.age }}</td>
+                                <td>{{ student.phone }}</td>
+                                <td>{{ student.email }}</td>
+                                <td>{{ student.date_registered|date:"M d, Y" }}</td>
+                                <td>
+                                    <div class="row-actions">
+                                        <a href="{% url 'registration:student_detail' student.student_id %}">View</a>
+                                        <a href="{% url 'registration:student_update' student.student_id %}">Edit</a>
+                                        <a class="danger-link" href="{% url 'registration:student_delete' student.student_id %}">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h2>No students found</h2>
+                <p>Create the first student record or adjust the search term.</p>
+                <a class="btn primary" href="{% url 'registration:student_create' %}">Add Student</a>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

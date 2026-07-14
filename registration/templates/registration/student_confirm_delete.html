@@ -1,0 +1,23 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Delete {{ student.name }} | Student Registration{% endblock %}
+{% block page_heading %}Delete Student{% endblock %}
+
+{% block header_actions %}
+    <a class="btn" href="{% url 'registration:student_detail' student.student_id %}">Cancel</a>
+{% endblock %}
+
+{% block content %}
+    <section class="confirm-panel">
+        <h2>Delete {{ student.name }}?</h2>
+        <p>This will remove student ID <strong>{{ student.student_id }}</strong> from the system.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button class="btn danger" type="submit">Delete Student</button>
+                <a class="btn" href="{% url 'registration:student_detail' student.student_id %}">Keep Student</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

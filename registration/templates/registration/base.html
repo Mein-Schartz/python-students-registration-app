@@ -1,0 +1,53 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Student Registration{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'registration/styles.css' %}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="{% url 'registration:student_list' %}">
+                <span class="brand-mark">SR</span>
+                <span>
+                    <strong>Student Registry</strong>
+                    <small>Training Center</small>
+                </span>
+            </a>
+
+            <nav class="main-nav" aria-label="Admin menu">
+                <a class="nav-link {% if active_menu == 'students' %}active{% endif %}" href="{% url 'registration:student_list' %}">Students</a>
+                <a class="nav-link disabled" href="#" aria-disabled="true">Lecturers</a>
+                <a class="nav-link disabled" href="#" aria-disabled="true">Courses</a>
+                <a class="nav-link disabled" href="#" aria-disabled="true">Registrations</a>
+                <a class="nav-link" href="/admin/">Django Admin</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <p class="eyebrow">Admin Workspace</p>
+                    <h1>{% block page_heading %}Students{% endblock %}</h1>
+                </div>
+                <div class="header-actions">
+                    {% block header_actions %}{% endblock %}
+                </div>
+            </header>
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>
