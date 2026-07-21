@@ -4,12 +4,12 @@ from .models import Student
 
 
 def generate_student_id():
+    """Create the next STU-style student ID for the student create form."""
     student_ids = Student.objects.filter(student_id__startswith="STU").values_list(
         "student_id",
         flat=True,
     )
     numbers = []
-
     for student_id in student_ids:
         suffix = student_id[3:]
 
@@ -21,6 +21,14 @@ def generate_student_id():
 
 
 class StudentForm(forms.ModelForm):
+    """
+    Form used by the student create and student edit pages.
+
+    It is used in:
+    - student_create() in registration/views.py
+    - student_update() in registration/views.py
+    """
+
     student_id = forms.CharField(
         label="Student ID",
         required=False,
@@ -37,6 +45,7 @@ class StudentForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        """Apply shared styling and lock the student ID when editing a student."""
         super().__init__(*args, **kwargs)
 
         for field in self.fields.values():
@@ -47,6 +56,7 @@ class StudentForm(forms.ModelForm):
             self.fields["student_id"].help_text = "Student ID cannot be changed."
 
     def clean_student_id(self):
+        """Validate or auto-generate the student ID before the form is saved."""
         student_id = self.cleaned_data["student_id"].strip().upper()
 
         if student_id == "" and not self.instance.pk:

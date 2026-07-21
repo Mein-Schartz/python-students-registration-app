@@ -2,6 +2,8 @@ from django.db import models
 
 
 class Lecturer(models.Model):
+    """Stores lecturer records used by courses and the Django admin."""
+
     lecturer_id = models.CharField(max_length=20, primary_key=True)
     full_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -20,6 +22,8 @@ class Lecturer(models.Model):
 
 
 class Course(models.Model):
+    """Stores courses that students can register for later."""
+
     code = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=150)
     description = models.TextField(blank=True)
@@ -45,6 +49,8 @@ class Course(models.Model):
 
 
 class Student(models.Model):
+    """Stores student records shown in the student CRUD interface."""
+
     student_id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()

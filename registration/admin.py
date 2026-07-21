@@ -5,6 +5,8 @@ from .models import Course, Lecturer, Student
 
 @admin.register(Lecturer)
 class LecturerAdmin(admin.ModelAdmin):
+    """Controls how lecturers appear in the built-in Django admin panel."""
+
     list_display = (
         "lecturer_id",
         "full_name",
@@ -21,6 +23,8 @@ class LecturerAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
+    """Controls how courses appear in the built-in Django admin panel."""
+
     list_display = ("code", "name", "fee", "duration", "lecturer", "capacity", "is_active")
     list_filter = ("is_active", "lecturer")
     search_fields = ("code", "name", "lecturer__full_name", "lecturer__lecturer_id")
@@ -30,6 +34,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
+    """Controls how students appear in the built-in Django admin panel."""
+
     list_display = ("student_id", "name", "age", "phone", "email", "date_registered")
     search_fields = ("student_id", "name", "email", "phone")
     ordering = ("name",)

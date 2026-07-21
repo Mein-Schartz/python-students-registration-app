@@ -2,11 +2,12 @@ from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import StudentForm
+from .student_forms import StudentForm
 from .models import Student
 
 
 def student_list(request):
+    """Display the student table. Used by / and /students/."""
     query = request.GET.get("q", "").strip()
     students = Student.objects.all()
 
@@ -28,6 +29,7 @@ def student_list(request):
 
 
 def student_detail(request, student_id):
+    """Display one student profile. Used by /students/<student_id>/."""
     student = get_object_or_404(Student, student_id=student_id)
 
     return render(
@@ -41,6 +43,7 @@ def student_detail(request, student_id):
 
 
 def student_create(request):
+    """Create a new student record. Used by /students/add/."""
     if request.method == "POST":
         form = StudentForm(request.POST)
 
@@ -64,6 +67,7 @@ def student_create(request):
 
 
 def student_update(request, student_id):
+    """Edit an existing student record. Used by /students/<student_id>/edit/."""
     student = get_object_or_404(Student, student_id=student_id)
 
     if request.method == "POST":
@@ -90,6 +94,7 @@ def student_update(request, student_id):
 
 
 def student_delete(request, student_id):
+    """Confirm and delete a student record. Used by /students/<student_id>/delete/."""
     student = get_object_or_404(Student, student_id=student_id)
 
     if request.method == "POST":
